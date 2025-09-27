@@ -14,9 +14,15 @@ import {
   useTheme,
   useMediaQuery,
   Divider,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
+  BarChart as BarChartIcon,
+  TrendingUp as TrendingUpIcon,
   Analytics as AnalyticsIcon,
 } from '@mui/icons-material';
 
@@ -26,18 +32,32 @@ interface SidebarLayoutProps {
   children: React.ReactNode;
   currentView: string;
   onViewChange: (view: string) => void;
+  rollCount: number;
+  onRollCountChange: (count: number) => void;
 }
 
 const navigationItems = [
   {
-    id: 'custom-dice-system',
-    label: '3d20 System Analysis',
+    id: 'dice-distribution',
+    label: 'Dice Distribution',
+    icon: <BarChartIcon />,
+    description: 'Visualize dice roll distributions'
+  },
+  {
+    id: 'success-rate',
+    label: 'Success Rate',
+    icon: <TrendingUpIcon />,
+    description: 'Analyze success probabilities'
+  },
+  {
+    id: 'system-overview',
+    label: 'System Overview',
     icon: <AnalyticsIcon />,
-    description: 'Analyze the 3d20 dice system'
+    description: 'Complete system analysis'
   },
 ];
 
-export default function SidebarLayout({ children, currentView, onViewChange }: SidebarLayoutProps) {
+export default function SidebarLayout({ children, currentView, onViewChange, rollCount, onRollCountChange }: SidebarLayoutProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -114,9 +134,36 @@ export default function SidebarLayout({ children, currentView, onViewChange }: S
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             {navigationItems.find(item => item.id === currentView)?.label || '3d20 RPG Visualizer'}
           </Typography>
+          <FormControl size="small" sx={{ minWidth: 150 }}>
+            <InputLabel sx={{ color: 'white' }}>Roll Count</InputLabel>
+            <Select
+              value={rollCount}
+              onChange={e => onRollCountChange(Number(e.target.value))}
+              label="Roll Count"
+              sx={{ 
+                color: 'white',
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'rgba(255, 255, 255, 0.23)',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+              }}
+            >
+              <MenuItem value={1000}>1,000</MenuItem>
+              <MenuItem value={5000}>5,000</MenuItem>
+              <MenuItem value={20000}>20,000</MenuItem>
+              <MenuItem value={50000}>50,000</MenuItem>
+              <MenuItem value={100000}>100,000</MenuItem>
+              <MenuItem value={500000}>500,000</MenuItem>
+            </Select>
+          </FormControl>
         </Toolbar>
       </AppBar>
 

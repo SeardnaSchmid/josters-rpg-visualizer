@@ -1,6 +1,6 @@
 import React from 'react';
-import { AdvantageDistributionChart } from './AdvantageDistributionChart';
-import { SuccessRateChart } from './SuccessRateChart';
+import { AdvantageDistributionChart } from './AdvantageDistributionChart.js';
+import { SuccessRateChart } from './SuccessRateChart.js';
 
 interface CustomDiceSystemAnalysisProps {
   rollCount: number;
