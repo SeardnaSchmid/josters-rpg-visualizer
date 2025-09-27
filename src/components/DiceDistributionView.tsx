@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { AdvantageDistributionChart } from './AdvantageDistributionChart.js';
+import { DiceDistributionChart } from './DiceDistributionChart.js';
 
 interface DiceDistributionViewProps {
   rollCount: number;
@@ -15,7 +15,7 @@ const DiceDistributionView: React.FC<DiceDistributionViewProps> = ({ rollCount }
       padding: '1em',
       marginBottom: '1em'
     }}>
-      <AdvantageDistributionChart rollCount={rollCount} />
+      <DiceDistributionChart rollCount={rollCount} />
     </Box>
   );
 };

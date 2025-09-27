@@ -46,7 +46,7 @@ const crosshairPlugin = {
     ctx.restore();
   }
 };
-import { ADVANTAGE_TYPES, getAdvantageTypeDistribution } from '../lib/custom-dice-system.js';
+import { ADVANTAGE_CONFIGS, simulateAllAdvantageLevels } from '../lib/custom-dice-system.js';
 
 // Register Chart.js components
 ChartJS.register(
@@ -60,11 +60,11 @@ ChartJS.register(
   crosshairPlugin
 );
 
-interface AdvantageDistributionChartProps {
+interface DiceDistributionChartProps {
   rollCount: number;
 }
 
-export const AdvantageDistributionChart: React.FC<AdvantageDistributionChartProps> = ({
+export const DiceDistributionChart: React.FC<DiceDistributionChartProps> = ({
   rollCount
 }) => {
   const [data, setData] = useState<any | null>(null);
@@ -77,14 +77,14 @@ export const AdvantageDistributionChart: React.FC<AdvantageDistributionChartProp
       setError(null);
       
       try {
-        // Run simulation in a web worker or use setTimeout to avoid blocking UI
-        const results = getAdvantageTypeDistribution(10, rollCount); // Fixed target value of 10
+        // Run simulation using new interface
+        const results = simulateAllAdvantageLevels(10, rollCount); // Fixed target value of 10
         
         // Prepare data for Chart.js
         const labels = Array.from({ length: 20 }, (_, i) => (i + 1).toString());
 
-        const datasets = ADVANTAGE_TYPES.map((advantageType: any, index: number) => {
-          const result = results[advantageType.id];
+        const datasets = Object.entries(ADVANTAGE_CONFIGS).map(([advantageLevel, config], index: number) => {
+          const result = results[advantageLevel as keyof typeof results];
           const data = labels.map(label => result?.distribution[label] || 0);
           
           // Normalize data to percentages
@@ -94,27 +94,27 @@ export const AdvantageDistributionChart: React.FC<AdvantageDistributionChartProp
           // Define line styles based on advantage type
           let borderColor, borderDash, borderWidth;
           
-          if (advantageType.id === 'normal') {
+          if (advantageLevel === 'normal') {
             // Standard: blue
             borderColor = '#3b82f6';
             borderDash = [];
             borderWidth = 2;
-          } else if (advantageType.id === 'advantage') {
+          } else if (advantageLevel === 'advantage') {
             // Simple advantage: green
             borderColor = '#22c55e';
             borderDash = [];
             borderWidth = 1.5;
-          } else if (advantageType.id === 'disadvantage') {
+          } else if (advantageLevel === 'disadvantage') {
             // Simple disadvantage: orange
             borderColor = '#f97316';
             borderDash = [];
             borderWidth = 1.5;
-          } else if (advantageType.id === 'strong-advantage') {
+          } else if (advantageLevel === 'strong-advantage') {
             // Strong advantage: dark green
             borderColor = '#16a34a';
             borderDash = [];
             borderWidth = 2.5;
-          } else if (advantageType.id === 'strong-disadvantage') {
+          } else if (advantageLevel === 'strong-disadvantage') {
             // Strong disadvantage: red
             borderColor = '#ef4444';
             borderDash = [];
@@ -122,16 +122,16 @@ export const AdvantageDistributionChart: React.FC<AdvantageDistributionChartProp
           }
           
           return {
-            label: advantageType.label,
+            label: config.label,
             data: normalizedData,
             borderColor: borderColor,
-            backgroundColor: getAdvantageColor(advantageType.id, 0.1),
+            backgroundColor: getAdvantageColor(advantageLevel, 0.1),
             tension: 0.1,
-            pointRadius: advantageType.id === 'normal' ? 4 : 2,
-            pointHoverRadius: advantageType.id === 'normal' ? 6 : 4,
+            pointRadius: advantageLevel === 'normal' ? 4 : 2,
+            pointHoverRadius: advantageLevel === 'normal' ? 6 : 4,
             borderDash: borderDash,
             borderWidth: borderWidth,
-            pointStyle: advantageType.id.includes('advantage') ? 'triangle' : (advantageType.id.includes('disadvantage') ? 'rect' : 'circle'),
+            pointStyle: advantageLevel.includes('advantage') ? 'triangle' : (advantageLevel.includes('disadvantage') ? 'rect' : 'circle'),
             fill: false,
           };
         });
@@ -168,7 +168,7 @@ export const AdvantageDistributionChart: React.FC<AdvantageDistributionChartProp
     plugins: {
       title: {
         display: true,
-        text: `Dice distributions for different advantage types`,
+        text: `TTRPG Dice System - Advantage/Disadvantage Distributions`,
         font: {
           size: 16,
           weight: 'bold'
@@ -280,4 +280,4 @@ export const AdvantageDistributionChart: React.FC<AdvantageDistributionChartProp
   );
 };
 
-export default AdvantageDistributionChart;
+export default DiceDistributionChart;

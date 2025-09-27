@@ -22,42 +22,19 @@ import {
 import {
   Menu as MenuIcon,
   BarChart as BarChartIcon,
-  TrendingUp as TrendingUpIcon,
-  Analytics as AnalyticsIcon,
 } from '@mui/icons-material';
 
 const DRAWER_WIDTH = 280;
 
-interface SidebarLayoutProps {
+interface DiceSystemLayoutProps {
   children: React.ReactNode;
-  currentView: string;
-  onViewChange: (view: string) => void;
   rollCount: number;
   onRollCountChange: (count: number) => void;
 }
 
-const navigationItems = [
-  {
-    id: 'dice-distribution',
-    label: 'Dice Distribution',
-    icon: <BarChartIcon />,
-    description: 'Visualize dice roll distributions'
-  },
-  {
-    id: 'success-rate',
-    label: 'Success Rate',
-    icon: <TrendingUpIcon />,
-    description: 'Analyze success probabilities'
-  },
-  {
-    id: 'system-overview',
-    label: 'System Overview',
-    icon: <AnalyticsIcon />,
-    description: 'Complete system analysis'
-  },
-];
+// Removed navigation items - only dice distribution view remains
 
-export default function SidebarLayout({ children, currentView, onViewChange, rollCount, onRollCountChange }: SidebarLayoutProps) {
+export default function DiceSystemLayout({ children, rollCount, onRollCountChange }: DiceSystemLayoutProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -70,47 +47,39 @@ export default function SidebarLayout({ children, currentView, onViewChange, rol
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Toolbar>
         <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold' }}>
-          3d20 RPG Visualizer
+          TTRPG Dice System
         </Typography>
       </Toolbar>
       <Divider />
       <List sx={{ flex: 1, px: 1 }}>
-        {navigationItems.map((item) => (
-          <ListItem key={item.id} disablePadding sx={{ mb: 0.5 }}>
-            <ListItemButton
-              selected={currentView === item.id}
-              onClick={() => {
-                onViewChange(item.id);
-                if (isMobile) {
-                  setMobileOpen(false);
-                }
-              }}
-              sx={{
-                borderRadius: 1,
-                '&.Mui-selected': {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.primary.contrastText,
-                  '&:hover': {
-                    backgroundColor: theme.palette.primary.dark,
-                  },
-                  '& .MuiListItemIcon-root': {
-                    color: theme.palette.primary.contrastText,
-                  },
+        <ListItem disablePadding sx={{ mb: 0.5 }}>
+          <ListItemButton
+            selected={true}
+            sx={{
+              borderRadius: 1,
+              '&.Mui-selected': {
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.primary.contrastText,
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.dark,
                 },
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: 40 }}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText 
-                primary={item.label}
-                secondary={item.description}
-                primaryTypographyProps={{ fontSize: '0.9rem', fontWeight: 500 }}
-                secondaryTypographyProps={{ fontSize: '0.75rem' }}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
+                '& .MuiListItemIcon-root': {
+                  color: theme.palette.primary.contrastText,
+                },
+              },
+            }}
+          >
+            <ListItemIcon sx={{ minWidth: 40 }}>
+              <BarChartIcon />
+            </ListItemIcon>
+            <ListItemText 
+              primary="Dice Distribution"
+              secondary="Visualize dice roll distributions"
+              primaryTypographyProps={{ fontSize: '0.9rem', fontWeight: 500 }}
+              secondaryTypographyProps={{ fontSize: '0.75rem' }}
+            />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
@@ -135,7 +104,7 @@ export default function SidebarLayout({ children, currentView, onViewChange, rol
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            {navigationItems.find(item => item.id === currentView)?.label || '3d20 RPG Visualizer'}
+            TTRPG Dice System
           </Typography>
           <FormControl size="small" sx={{ minWidth: 150 }}>
             <InputLabel sx={{ color: 'white' }}>Roll Count</InputLabel>
