@@ -19,7 +19,7 @@ const theme = createTheme({
 });
 
 
-const DEFAULT_ROLL_COUNT = 5000;
+const DEFAULT_ROLL_COUNT = 10000;
 
 export default function App() {
   // Global roll count state

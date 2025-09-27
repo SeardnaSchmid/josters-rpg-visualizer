@@ -106,7 +106,7 @@ Simulate many rolls and return statistical analysis.
 const stats = simulateRolls({
   advantageLevel: 'advantage',
   targetValue: 15
-}, 100000);
+}, 10000); // Default 10,000 rolls for good balance of speed and accuracy
 
 console.log(`Success rate: ${(stats.successRate * 100).toFixed(2)}%`);
 console.log(`Average successes: ${stats.averageSuccesses.toFixed(2)}`);
@@ -171,7 +171,7 @@ Calculate success probability (0-1) through simulation.
 const prob = calculateSuccessProbability({
   advantageLevel: 'advantage',
   targetValue: 15
-}, 10000);
+}, 10000); // 10,000 rolls for accurate probability
 console.log(`Success probability: ${(prob * 100).toFixed(2)}%`);
 ```
 
@@ -272,7 +272,8 @@ try {
 ## Performance
 
 - **Single rolls**: ~0.001ms
-- **1000 rolls**: ~1ms  
+- **1,000 rolls**: ~1ms  
+- **10,000 rolls**: ~10ms (default)
 - **100,000 simulation**: ~100ms
 - **Memory efficient**: No object creation in hot paths
 

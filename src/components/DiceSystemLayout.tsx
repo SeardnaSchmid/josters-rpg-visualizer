@@ -14,10 +14,9 @@ import {
   useTheme,
   useMediaQuery,
   Divider,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  TextField,
+  Button,
+  ButtonGroup,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -106,33 +105,90 @@ export default function DiceSystemLayout({ children, rollCount, onRollCountChang
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             TTRPG Dice System
           </Typography>
-          <FormControl size="small" sx={{ minWidth: 150 }}>
-            <InputLabel sx={{ color: 'white' }}>Roll Count</InputLabel>
-            <Select
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <TextField
+              type="number"
               value={rollCount}
               onChange={e => onRollCountChange(Number(e.target.value))}
               label="Roll Count"
-              sx={{ 
-                color: 'white',
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgba(255, 255, 255, 0.23)',
+              size="small"
+              sx={{
+                width: 120,
+                '& .MuiOutlinedInput-root': {
+                  color: 'white',
+                  '& fieldset': {
+                    borderColor: 'rgba(255, 255, 255, 0.23)',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white',
+                  },
                 },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                '& .MuiInputLabel-root': {
+                  color: 'rgba(255, 255, 255, 0.7)',
                 },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'white',
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: 'white',
                 },
               }}
-            >
-              <MenuItem value={1000}>1,000</MenuItem>
-              <MenuItem value={5000}>5,000</MenuItem>
-              <MenuItem value={20000}>20,000</MenuItem>
-              <MenuItem value={50000}>50,000</MenuItem>
-              <MenuItem value={100000}>100,000</MenuItem>
-              <MenuItem value={500000}>500,000</MenuItem>
-            </Select>
-          </FormControl>
+            />
+            <ButtonGroup size="small" variant="outlined">
+              <Button 
+                onClick={() => onRollCountChange(1000)}
+                sx={{ 
+                  color: 'white', 
+                  borderColor: 'rgba(255, 255, 255, 0.23)',
+                  '&:hover': {
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  }
+                }}
+              >
+                1K
+              </Button>
+              <Button 
+                onClick={() => onRollCountChange(5000)}
+                sx={{ 
+                  color: 'white', 
+                  borderColor: 'rgba(255, 255, 255, 0.23)',
+                  '&:hover': {
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  }
+                }}
+              >
+                5K
+              </Button>
+              <Button 
+                onClick={() => onRollCountChange(10000)}
+                sx={{ 
+                  color: 'white', 
+                  borderColor: 'rgba(255, 255, 255, 0.23)',
+                  '&:hover': {
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  }
+                }}
+              >
+                10K
+              </Button>
+              <Button 
+                onClick={() => onRollCountChange(50000)}
+                sx={{ 
+                  color: 'white', 
+                  borderColor: 'rgba(255, 255, 255, 0.23)',
+                  '&:hover': {
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  }
+                }}
+              >
+                50K
+              </Button>
+            </ButtonGroup>
+          </Box>
         </Toolbar>
       </AppBar>
 
